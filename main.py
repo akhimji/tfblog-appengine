@@ -2,9 +2,9 @@
 from flask import Flask
 from flask import render_template
 from flask import request, redirect
-import numpy as np
 import googleapiclient.discovery
-import json
+#import json
+#import numpy as np
 
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
