@@ -3,7 +3,7 @@ from flask import Flask
 from flask import render_template
 from flask import request, redirect
 import numpy as np
-#import googleapiclient.discovery
+import googleapiclient.discovery
 import json
 
 
@@ -30,34 +30,32 @@ def predict_json(project, region, model, instances, version=None):
 
 @app.route('/predict', methods=['POST'])
 def form():
+    ### Change These To Match You Project ###
+    project="tf-blog"
+    region="uscentral1"
+    model="tfblog"
+    #--------------------------------------#
+    #instance=[['5.1', '3.5', '1.4', '0.2']]
+    version="v1"
     data=[]
     l0=[]
-    intance=[]
+    instance=[]
     l0.append(float(request.form['SL']))
     l0.append(float(request.form['SW']))
     l0.append(float(request.form['PL']))
     l0.append(float(request.form['PW']))
-    intance.append(l0)
-    print(l1)
-        project="tf-blog"
-    region="uscentral1"
-    model="tfblog"
-    #instance=[['5.1', '3.5', '1.4', '0.2']]
-    version="v1"
-
+    instance.append(l0)
+    print(instance)
     prediction=predict_json(project,region,model,instance,version)
     for result in prediction:
          for k, v in result.items():
              for i in range(len(v)):
                 data.append('%.08f' % (v[i]*100))
-    labels=["Iris Setosa", "Iris Versicolor"," Iris Virginica"]   
+    labels=["Iris Setosa", "Iris Versicolor"," Iris Virginica"]
     return render_template('index.html', data=data, labels=labels)
 
 @app.route('/')
 def hello():
-    #instance=[[5.1, 3.5, 1.4, 0.2]]
-    #preds = predict_json("tf-blog","us-east1","tf_blog",instance,"v1")
-    #return str(preds)
     return render_template('index.html')
 
 if __name__ == '__main__':
