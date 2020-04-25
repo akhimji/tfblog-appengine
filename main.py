@@ -2,7 +2,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request, redirect
-
+import numpy as np
 #import googleapiclient.discovery
 import json
 
@@ -31,12 +31,20 @@ def predict_json(project, region, model, instances, version=None):
 @app.route('/predict', methods=['POST'])
 def form():
     data=[]
-    project="tf-blog"
+    l0=[]
+    intance=[]
+    l0.append(float(request.form['SL']))
+    l0.append(float(request.form['SW']))
+    l0.append(float(request.form['PL']))
+    l0.append(float(request.form['PW']))
+    intance.append(l0)
+    print(l1)
+        project="tf-blog"
     region="uscentral1"
     model="tfblog"
-    instance=[[5.1, 3.5, 1.4, 0.2]]
+    #instance=[['5.1', '3.5', '1.4', '0.2']]
     version="v1"
-    #irisvalules = request.form['iris-values']
+
     prediction=predict_json(project,region,model,instance,version)
     for result in prediction:
          for k, v in result.items():
